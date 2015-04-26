@@ -1,0 +1,86 @@
+---
+title       : Russian Population Censuses
+subtitle    : Age cohorts in the Russian censuses data 1897-2010
+author      : Denis Gramatchikov
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+
+---
+
+## Russian Censuses App  
+The Russian Censuses shiny application is a course project for Coursera and "Developing Data Products".    
+The application shows the distribution of the age groups in the population of Russia across the census data since 1897  untill 2010.  
+
+Data for application is a dataset combining the male and female cohort population:  
+```{r data}
+mainData <- read.csv(file = "data/ruscensus.csv", header = TRUE, sep = ";")
+print(mainData[1:4, 1:8])
+```
+
+---
+
+## Application interface  
+Shiny apps interface allows to select the desired census year:  
+
+![1](figures/sel_input.png)  
+
+and specify a cohorts (age groups) size  
+
+![2](figures/slider_input.png)  
+
+According to these options the application draws the population diagram.  
+
+---
+
+## Population pyramid  
+To plot the diagrams the app uses a laconic [pyramyd library](http://minato.sip21c.org/swtips/R.html#PYRAMID) by Minato Nakazawa. The library is also available in the CRAN repository (in english fortunately). It provides us quite handy population pyramids:
+```{r pyramidlab, echo=FALSE}
+if(!require(pyramid)){
+  install.packages("pyramid")
+  library(pyramid)
+  }
+maxMark <- function(num){
+  numOrd <- trunc(log10(num))
+  num1 <- signif(num / 10^numOrd, 2)
+  num2 <- trunc(num / 10^numOrd)
+  return(10^numOrd * (ceiling((num1 - num2) / .25) * .25 + num2))
+}
+## population pyramid drawing
+pyramidm <- function(data, census, breack){
+  ## vector of lower limits of cohorts ages
+  stepNum <- seq(from = 1, to = nrow(data), by = breack)
+  if(breack > 1)
+  ## vector of labels for the cohorts
+    stepLab <- sapply(stepNum, FUN = function(n){paste0(as.character(n-1), "-", as.character(n+breack-2))})
+  else
+    stepLab <- as.character(stepNum-1)
+  stepLab[length(stepLab)] <- paste0(as.character(max(stepNum)-1), "+") 
+  ## calculate the population of the cohorts and bind a final data frame
+  plotData <- sapply(stepNum, FUN = function(n){sum(data[n:(n+breack-1),1])})
+  plotData <- as.data.frame(cbind(plotData, sapply(stepNum, FUN = function(n){sum(data[n:(n+breack-1),2])})))
+  plotData <- as.data.frame(cbind(plotData, stepLab))
+  plotData[nrow(plotData), 1] <- sum(data[max(stepNum):nrow(data),1])
+  plotData[nrow(plotData), 2] <- sum(data[max(stepNum):nrow(data),2])
+  ## calculate marks of the population amount axis
+  axisMarks <- seq(0, maxMark(max(plotData[,1:2])), length.out = 5) ## to simplify
+  ## draw the diagram
+  pyramid(plotData, Laxis = axisMarks, AxisFM = "fg", Cgap = .15, Cstep = ifelse(breack < 5, 6 - breack, 1), 
+          Lcol="Blue", Rcol="Red", main=paste0("Population pyramid (Russia, ", census,")"))
+}
+
+```
+```{r pyramidplot, echo=TRUE, fig.align='center', fig.width=12, fig.height=6}
+  pyramidm(mainData[,17:18], "2010", 1)
+```
+
+--- .class #5 
+
+## The End (by James Douglas Morrison)
+As a result we have got an application like this one:  
+
+![3](figures/preview.png)  
