@@ -83,4 +83,4 @@ pyramidm <- function(data, census, breack){
 ## The End (by James Douglas Morrison)
 As a result we have got an application like this one:  
 
-![1](figures/1959_01.png)  
+![3](figures/preview.png)  

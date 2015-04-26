@@ -61,4 +61,4 @@ To plot the diagrams the app uses a laconic [pyramyd library](http://minato.sip2
 ## The End (by James Douglas Morrison)
 As a result we have got an application like this one:  
 
-![1](figures/1959_01.png)  
+![3](figures/preview.png)  
