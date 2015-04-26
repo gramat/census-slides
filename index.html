@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Russian Population Censuses</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Russian Population Censuses">
+  <meta name="author" content="Denis Gramatchikov">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Russian Population Censuses</h1>
+    <h2>Age cohorts in the Russian censuses data 1897-2010</h2>
+    <p>Denis Gramatchikov<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Russian Censuses App</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The Russian Censuses shiny application is a course project for Coursera and &quot;Developing Data Products&quot;.<br>
+The application shows the distribution of the age groups in the population of Russia across the census data since 1897  untill 2010.  </p>
+
+<p>Data for application is a dataset combining the male and female cohort population:  </p>
+
+<pre><code class="r">mainData &lt;- read.csv(file = &quot;data/ruscensus.csv&quot;, header = TRUE, sep = &quot;;&quot;)
+print(mainData[1:4, 1:8])
+</code></pre>
+
+<pre><code>##     m1897   f1897   m1926   f1926   m1939   f1939   m1959   f1959
+## 1 1236066 1235000 1553272 1512110 1904698 1851813 1362410 1311282
+## 2  973400  988112 1277896 1262002 1568194 1538801 1352420 1298272
+## 3  942004  956838 1222107 1218125 1303287 1286625 1333686 1284417
+## 4  929882  955203 1248013 1244541 1166121 1154801 1363860 1312176
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Application interface</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Shiny apps interface allows to select the desired census year:  </p>
+
+<p><img src="figures/sel_input.png" alt="1">  </p>
+
+<p>and specify a cohorts (age groups) size  </p>
+
+<p><img src="figures/slider_input.png" alt="2">  </p>
+
+<p>According to these options the application draws the population diagram.  </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Population pyramid</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>To plot the diagrams the app uses a laconic <a href="http://minato.sip21c.org/swtips/R.html#PYRAMID">pyramyd library</a> by Minato Nakazawa. The library is also available in the CRAN repository (in english fortunately). It provides us quite handy population pyramids:</p>
+
+<pre><code class="r">  pyramidm(mainData[,17:18], &quot;2010&quot;, 1)
+</code></pre>
+
+<p><img src="assets/fig/pyramidplot-1.png" title="plot of chunk pyramidplot" alt="plot of chunk pyramidplot" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="5" style="background:;">
+  <hgroup>
+    <h2>The End (by James Douglas Morrison)</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>As a result we have got an application like this one:  </p>
+
+<p><img src="figures/1959_01.png" alt="1">  </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Russian Censuses App'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Application interface'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Population pyramid'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='The End (by James Douglas Morrison)'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
